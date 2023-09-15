@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.Filter;
 import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
@@ -40,14 +40,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http = http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
 
         AuthenticationEntryPoint auth;
-        http = http.exceptionHandling(handling -> handling.authenticationEntryPoint(((request, response, ex) -> {
+        http = http.exceptionHandling().authenticationEntryPoint(((request, response, ex) -> {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
-        })).and());
+        })).and();
 
         // Set permissions on endpoints
         http.authorizeRequests(request -> request.anyRequest().authenticated());
 
         // add jwt token filter
-        http.addFilterBefore(jwtFilter, (Class<? extends Filter>) UsernamePasswordAuthenticationToken.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
