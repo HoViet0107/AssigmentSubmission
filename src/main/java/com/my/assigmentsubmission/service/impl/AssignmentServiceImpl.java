@@ -1,7 +1,7 @@
 package com.my.assigmentsubmission.service.impl;
 
+import com.my.assigmentsubmission.Repository.AssignmentRepository;
 import com.my.assigmentsubmission.model.Assignment;
-import com.my.assigmentsubmission.model.AssignmentRepository;
 import com.my.assigmentsubmission.model.User;
 import com.my.assigmentsubmission.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
