@@ -10,12 +10,12 @@ const AssignmentView = () => {
 
   useEffect(
     (response) => {
-      fetch(`api/assignments/${assignmentId}`, {
+      fetch(`/api/assignments/${assignmentId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${jwt}`,
         },
-        method: "POST",
+        method: "GET",
       })
         .then((response) => {
           if (response.status === 200) {
@@ -28,7 +28,7 @@ const AssignmentView = () => {
           setAssignment(assignmentData);
         });
     },
-    [jwt]
+    [assignmentId, jwt]
   );
 
   return (
@@ -36,7 +36,16 @@ const AssignmentView = () => {
       <h1>Assignment {assignmentId}</h1>
       {assignment ? (
         <>
-          <h2>{assignment.status}</h2>{" "}
+          <h2>Status: {assignment.status}</h2>
+          <h3>
+            Branch:
+            <input type="text" id="branch" />
+          </h3>
+          <h3>
+            Github URL: <input type="url" id="gitHubUrl" />
+          </h3>
+
+          <button>Submit</button>
         </>
       ) : (
         <></>

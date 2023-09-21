@@ -7,6 +7,7 @@ import com.my.assigmentsubmission.service.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,5 +29,10 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Set<Assignment> findByUser(User user) {
         return assignmentRepository.findByUser(user);
+    }
+
+    @Override
+    public Optional<Assignment> findById(Long assignmentId) {
+        return assignmentRepository.findById(assignmentId);
     }
 }

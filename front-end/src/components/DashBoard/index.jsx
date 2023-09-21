@@ -27,7 +27,7 @@ const DashBoard = () => {
         }
       })
       .then((assignment) => {
-        window.location.href = `assignment/${assignment.id}`;
+        window.location.href = `assignments/${assignment.id}`;
       });
   };
 
