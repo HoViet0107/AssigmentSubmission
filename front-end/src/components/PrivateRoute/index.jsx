@@ -3,8 +3,9 @@ import { Navigate } from "react-router-dom";
 import { useLocalState } from "src/store/UseLocalStorage";
 
 const PrivateRoute = ({ children }) => {
+  // eslint-disable-next-line no-unused-vars
   const [jwt, setJwt] = useLocalState("", "jwt");
-  console.log(`jwt key: ${jwt}, private-route log`);
+  // console.log(`jwt key: ${jwt}, private-route log`);
   return jwt ? children : <Navigate to="/login" />;
 };
 
