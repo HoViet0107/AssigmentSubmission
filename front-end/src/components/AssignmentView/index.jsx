@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 import { useLocalState } from "src/store/UseLocalStorage";
 
 const AssignmentView = () => {
@@ -7,6 +11,12 @@ const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
   // eslint-disable-next-line no-unused-vars
   const [assignment, setAssignment] = useState(null);
+
+  const updateAssignment = (props, value) => {
+    const newAssignment = { ...assignment };
+    newAssignment[props] = value;
+    setAssignment(newAssignment);
+  };
 
   useEffect(
     (response) => {
@@ -31,6 +41,31 @@ const AssignmentView = () => {
     [assignmentId, jwt]
   );
 
+  const save = () => {
+    fetch(`/api/assignments/${assignmentId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      method: "PUT",
+      body: JSON.stringify(assignment),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          NotificationManager.success("", "Success");
+          return response.json();
+        } else {
+          return response.json();
+        }
+      })
+      .then((assignmentData) => {
+        setAssignment(assignmentData);
+      })
+      .catch((message) => {
+        NotificationManager.warning(message, "Warning", 2000);
+      });
+  };
+
   return (
     <div>
       <h1>Assignment {assignmentId}</h1>
@@ -39,13 +74,25 @@ const AssignmentView = () => {
           <h2>Status: {assignment.status}</h2>
           <h3>
             Branch:
-            <input type="text" id="branch" />
+            <input
+              type="text"
+              id="branch"
+              onChange={(e) => updateAssignment("branch", e.target.value)}
+              value={assignment.branch}
+            />
           </h3>
           <h3>
-            Github URL: <input type="url" id="gitHubUrl" />
+            Github URL:{" "}
+            <input
+              type="url"
+              id="gitHubUrl"
+              onChange={(e) => updateAssignment("githubUrl", e.target.value)}
+              value={assignment.githubUrl}
+            />
           </h3>
 
-          <button>Submit</button>
+          <button onClick={save}>Submit</button>
+          <NotificationContainer />
         </>
       ) : (
         <></>

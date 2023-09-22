@@ -23,7 +23,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setGithubUrl("Dev mode github URL");
         assignment.setCodeReviewVideoUrl("Dev mode video URl");
         assignment.setUser(user);
-       return assignmentRepository.save(assignment);
+        return assignmentRepository.save(assignment);
     }
 
     @Override
@@ -34,5 +34,10 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Optional<Assignment> findById(Long assignmentId) {
         return assignmentRepository.findById(assignmentId);
+    }
+
+    @Override
+    public Assignment updateAssignment(Assignment assignment) {
+        return assignmentRepository.save(assignment);
     }
 }

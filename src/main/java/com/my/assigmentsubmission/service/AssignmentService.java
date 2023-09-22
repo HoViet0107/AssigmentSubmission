@@ -14,4 +14,6 @@ public interface AssignmentService {
     Set<Assignment> findByUser(User user);
 
     Optional<Assignment> findById(Long assignmentId);
+
+    Assignment updateAssignment(com.my.assigmentsubmission.model.Assignment assignment);
 }

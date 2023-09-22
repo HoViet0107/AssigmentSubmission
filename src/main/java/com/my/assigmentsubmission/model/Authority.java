@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Authority implements GrantedAuthority {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String authority;
 

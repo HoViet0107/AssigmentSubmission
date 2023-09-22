@@ -18,33 +18,54 @@ public class AssignmentController {
     @Autowired
     private AssignmentService assignmentService;
 
+    // create assignment
     @PostMapping("")
-    public ResponseEntity<?> createAssignments(@AuthenticationPrincipal User user){
+    public ResponseEntity<?> createAssignments(@AuthenticationPrincipal User user) {
         try {
             Assignment newAssignment = assignmentService.createAssignment(user);
             return ResponseEntity.ok(newAssignment);
-        } catch (Exception ex){
-            return new ResponseEntity<>("Tạo assignment thất bại! "+ ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>("Tạo assignment thất bại! " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
+    //    get all assignments
     @GetMapping("")
-    public ResponseEntity<?> getAssignments (@AuthenticationPrincipal User user){
+    public ResponseEntity<?> getAssignments(@AuthenticationPrincipal User user) {
         try {
-            Set<Assignment> assignmentsByUser =assignmentService.findByUser(user);
+            Set<Assignment> assignmentsByUser = assignmentService.findByUser(user);
             return ResponseEntity.ok(assignmentsByUser);
-        } catch (Exception ex){
-            return new ResponseEntity<>("An error occurred: "+ ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    //    get assignment by id
     @GetMapping("{assignmentId}")
-    public ResponseEntity<?> getAssignmentById (@PathVariable Long assignmentId ,@AuthenticationPrincipal User user){
+    public ResponseEntity<?> getAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal User user) {
         try {
-            Optional<Assignment> assignmentOpt =assignmentService.findById(assignmentId);
+            Optional<Assignment> assignmentOpt = assignmentService.findById(assignmentId);
             return ResponseEntity.ok(assignmentOpt.orElse(new Assignment()));
-        } catch (Exception ex){
-            return new ResponseEntity<>("An error occurred: "+ ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //    update specific assignment with assignment id
+    @PutMapping("{assignmentId}")
+    public ResponseEntity<?> updateAssignment(
+            @PathVariable Long assignmentId,
+            @RequestBody Assignment assignment,
+            @AuthenticationPrincipal User user) {
+        try {
+            Assignment existAssignment = assignmentService.updateAssignment(assignment);
+            return ResponseEntity.ok(existAssignment);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

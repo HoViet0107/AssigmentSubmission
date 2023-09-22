@@ -8,7 +8,10 @@ import { Link } from "react-router-dom";
 const DashBoard = () => {
   // eslint-disable-next-line no-unused-vars
   const [jwt, setJwt] = useLocalState("", "jwt");
-  const [assignments, setAssignments] = useState(null);
+  const [assignments, setAssignments] = useState({
+    branch: "",
+    githubUrl: "",
+  });
 
   // create assignment
   const createAssignMent = () => {
@@ -49,7 +52,7 @@ const DashBoard = () => {
         setAssignments(assignmentsData);
       });
   }, [jwt]);
-  console.log(assignments);
+  // console.log(assignments);
 
   return (
     <div className="container">
