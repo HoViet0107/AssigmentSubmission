@@ -7,6 +7,7 @@ import {
 } from "react-notifications";
 // css
 import "react-notifications/lib/notifications.css";
+import ajax from "src/service/fetchService";
 
 const Login = () => {
   const [jwt, setJwt] = useLocalState("", "jwt");
@@ -19,27 +20,17 @@ const Login = () => {
         username: username,
         password: password,
       };
-      fetch("api/auth/login", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(reqBody),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            return Promise.all([response.json(), response.headers]);
-          } else {
-            return Promise.reject("Invalid login attempt!");
-          }
-        })
+      ajax("api/auth/login", false, "POST", reqBody)
         .then(([body, headers]) => {
           setJwt(headers.get("authorization"));
           window.location.href = "dashboard";
         })
         .catch((message) => {
-          NotificationManager.warning(message, "Warning", 2000);
-          // alert(message);
+          NotificationManager.warning(
+            "Invalid login attempt!",
+            "Warning",
+            2000
+          );
         });
     }
   };

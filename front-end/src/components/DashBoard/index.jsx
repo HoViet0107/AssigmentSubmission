@@ -4,6 +4,8 @@ import { useLocalState } from "src/store/UseLocalStorage";
 import "./style.scss";
 // eslint-disable-next-line no-unused-vars
 import { Link } from "react-router-dom";
+import ajax from "src/service/fetchService";
+import { NotificationManager } from "react-notifications";
 
 const DashBoard = () => {
   // eslint-disable-next-line no-unused-vars
@@ -15,48 +17,25 @@ const DashBoard = () => {
 
   // create assignment
   const createAssignMent = () => {
-    fetch("api/assignments", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-      method: "POST",
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        } else {
-          return response.json();
-        }
-      })
+    ajax("api/assignments", jwt, "POST")
       .then((assignment) => {
         window.location.href = `assignments/${assignment.id}`;
+      })
+      .catch((message) => {
+        NotificationManager.error(message, "Warning", 2000);
       });
   };
 
   // fetch assignment from db
   useEffect(() => {
-    fetch("api/assignments", {
-      headers: {
-        "Content-Type": "application.json",
-        Authorization: `Bearer ${jwt}`,
-      },
-      method: "GET",
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((assignmentsData) => {
-        setAssignments(assignmentsData);
-      });
+    ajax("api/assignments", jwt, "GET").then((assignmentsData) => {
+      setAssignments(assignmentsData);
+    });
   }, [jwt]);
-  // console.log(assignments);
 
   return (
     <div className="container">
-      {assignments ? (
+      {assignments && assignments.length > 0 ? (
         assignments.map((assignment) => (
           <div key={assignment.id}>
             <Link to={`/assignments/${assignment.id}`}>

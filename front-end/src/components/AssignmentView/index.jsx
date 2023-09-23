@@ -3,6 +3,7 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import ajax from "src/service/fetchService";
 import { useLocalState } from "src/store/UseLocalStorage";
 
 const AssignmentView = () => {
@@ -20,44 +21,23 @@ const AssignmentView = () => {
 
   useEffect(
     (response) => {
-      fetch(`/api/assignments/${assignmentId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        method: "GET",
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            return response.json();
-          } else {
-            return response.json();
-          }
-        })
-        .then((assignmentData) => {
+      ajax(`/api/assignments/${assignmentId}`, jwt, "GET").then(
+        (assignmentData) => {
           setAssignment(assignmentData);
-        });
+        }
+      );
     },
     [assignmentId, jwt]
   );
 
   const save = () => {
-    fetch(`/api/assignments/${assignmentId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-      method: "PUT",
-      body: JSON.stringify(assignment),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          NotificationManager.success("", "Success");
-          return response.json();
-        } else {
-          return response.json();
-        }
-      })
+    ajax(`/api/assignments/${assignmentId}`, jwt, "PUT", assignment)
+      .then(
+        NotificationManager.success(
+          "Cập nhật assignment thành công!",
+          "Success!"
+        )
+      )
       .then((assignmentData) => {
         setAssignment(assignmentData);
       })
