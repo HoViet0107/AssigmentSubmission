@@ -42,6 +42,7 @@ const CusInput = ({
   }, [isValid, changeValue, htmlFor, inputValue, condition]);
 
   return (
+    // cần sửa scss và một số logic
     <div className="input-container">
       <label className="form__label" htmlFor={htmlFor}>
         {children}
