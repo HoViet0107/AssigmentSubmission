@@ -10,14 +10,10 @@ function useLocalState(defaultValue, key) {
       ? JSON.parse(localStorageValue)
       : defaultValue;
   });
-  console.log(`localStorage jwt key: '${key}', values: '${value}'`);
 
   // store jwtKey in localStorage
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
-    console.log(
-      `update value to localStorage jwt key: '${key}', values: '${value}'`
-    );
   }, [key, value]);
 
   return [value, setValue];

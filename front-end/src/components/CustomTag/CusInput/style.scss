@@ -1,0 +1,45 @@
+@use "src/globalStyle/base";
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  font-family: Poppins-Regular;
+  width: 100%;
+  padding: 0.75rem;
+  height: 120px;
+}
+.form__label {
+  font-family: Poppins-Regular !important;
+  font-size: 2rem;
+  font-weight: bold;
+  color: base.$dark-gray;
+  width: 100%;
+}
+.inputSpan {
+  width: 100%;
+  border-bottom: 1px solid base.$primary;
+  border-radius: 4px;
+}
+.form__field {
+  border: none;
+
+  padding: 5px 0;
+  font-size: 1.3rem;
+  caret-color: base.$secondary;
+  border-radius: 4px;
+  background-color: base.$light-black;
+  color: base.$light-gray;
+}
+
+.form__field:focus {
+  outline: none;
+}
+::placeholder {
+  color: #c3bfbf;
+}
+.conditionTitle {
+  width: 100%;
+  word-break: break-all; /* Tự động xuống dòng khi cần */
+  color: base.$light-gray;
+  white-space: "pre-line";
+}

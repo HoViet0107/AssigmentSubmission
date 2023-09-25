@@ -1,4 +1,3 @@
-import "./App.scss";
 import { Route, Routes } from "react-router-dom";
 // component import
 import DashBoard from "./components/DashBoard/index.jsx";
@@ -9,26 +8,28 @@ import AssignmentView from "./components/AssignmentView";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<Login />} />
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute>
-            <DashBoard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/assignments/:id"
-        element={
-          <PrivateRoute>
-            <AssignmentView />
-          </PrivateRoute>
-        }
-      />
-    </Routes>
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <DashBoard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/assignments/:id"
+          element={
+            <PrivateRoute>
+              <AssignmentView />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </div>
   );
 }
 

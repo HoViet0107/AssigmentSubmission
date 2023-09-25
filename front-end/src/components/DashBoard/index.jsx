@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocalState } from "src/store/UseLocalStorage";
-// css
-import "./style.scss";
 // eslint-disable-next-line no-unused-vars
 import { Link } from "react-router-dom";
 import ajax from "src/service/fetchService";

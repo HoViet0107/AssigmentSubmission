@@ -1,0 +1,5 @@
+@use "src/globalStyle/global";
+
+.container {
+  background-color: global.$primary-color;
+}
