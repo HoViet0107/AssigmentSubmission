@@ -2,22 +2,26 @@ let pMessage;
 let uPessage;
 
 export function validateUsername(username) {
-  // Kiểm tra độ dài username phải ít nhất là 4 ký tự
   if (username.length < 4) {
     uPessage = "Tên đăng nhập phải lớn hơn 4 ký tự";
     return false;
   }
-  // Kiểm tra username không chứa ký tự đặc biệt và khoảng trắng
+
+  if (username.length > 20) {
+    uPessage = "Tên đăng nhập tối đa 20 ký tự";
+    return false;
+  }
+
   if (!/^[a-zA-Z0-9]+$/.test(username)) {
     uPessage = "Tên đăng nhập không hợp lệ";
     return false;
   }
-  // Kiểm tra username không được để trống
+
   if (!username.trim()) {
     uPessage = "Tên đăng nhập không được để trống";
     return false;
   }
-  // Nếu tất cả các điều kiện đều thỏa mãn, trả về true
+
   return true;
 }
 
@@ -26,10 +30,17 @@ export function validatePassword(password) {
     pMessage = "Mật khẩu phải lớn hơn 6 ký tự!";
     return false;
   }
+
+  if (password.length > 16) {
+    pMessage = "Mật khẩu phải tối đa 16 ký tự!";
+    return false;
+  }
+
   if (!password.trim()) {
     pMessage = "Mật khẩu không được để trống!";
     return false;
   }
+
   if (/\s/.test(password)) {
     pMessage = "Mật khẩu không được chứa khoảng trắng!";
     return false;

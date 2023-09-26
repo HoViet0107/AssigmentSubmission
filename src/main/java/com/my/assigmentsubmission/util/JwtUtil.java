@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 public class JwtUtil implements Serializable {
     // private static final long serialVersionUID = -2550185165626007488L;
 
-
+    public static final long JWT_TOKEN_VALIDITY = 5; // 2 phút
 //    public static final long JWT_TOKEN_VALIDITY = 12 * 60 * 60; // 12 tiếng
-    public static final long JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60; // 30 ngày
+//    public static final long JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60; // 30 ngày
 
     @Value("${jwt.secret}")
     private String secret;
