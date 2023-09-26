@@ -13,8 +13,10 @@ const ajax = async (url, jwt, requestMethod, requestBody) => {
     fetchData.body = JSON.stringify(requestBody);
   }
 
-  return fetch(`${url}`, fetchData).then((response) => {
+  return fetch(url, fetchData).then((response) => {
     if (response.status === 200) {
+      return response.json();
+    } else {
       return response.json();
     }
   });

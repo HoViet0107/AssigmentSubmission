@@ -5,6 +5,8 @@ import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import AssignmentView from "./components/AssignmentView";
+// scss
+import "./App.scss";
 
 function App() {
   return (

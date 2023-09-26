@@ -3,7 +3,9 @@
 
 -- delete from authority where id = 5
 
-select * from users
-select * from authority
+-- select * from users
+-- select * from authority
 select * from assignment
 
+-- update assignment set status='Need to be Submitted'  where [status] ='Dev mode'
+--  update assignment set name='assignment name'  where id = (4)

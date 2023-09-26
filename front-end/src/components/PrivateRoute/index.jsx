@@ -10,19 +10,28 @@ const PrivateRoute = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  console.log("1: isValid: ", isValid, ", isLoading: ", isLoading);
-  // console.log(`jwt key: ${jwt}, private-route log`);
-  if (jwt) {
-    ajax(`/api/auth/validate?token=${jwt}`, jwt, "GET").then((isValidRes) => {
-      setIsValid(isValidRes);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
       setIsLoading(false);
-      console.log("2: isValid: ", isValid, ", isLoading: ", isLoading);
-    });
-  } else {
-    console.log("3: isValid: ", isValid, ", isLoading: ", isLoading);
-    navigate("/login");
-  }
-  console.log("4: isValid: ", isValid, ", isLoading: ", isLoading);
+      console.log("Timeout");
+    }, 1000);
+
+    ajax(`/api/auth/validate?token=${jwt}`, jwt, "GET")
+      .then((isValidRes) => {
+        setIsValid(isValidRes);
+        setIsLoading(false);
+        clearTimeout(timeout);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        clearTimeout(timeout);
+      });
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [jwt]);
+
   return isLoading ? (
     <div>Loading...</div>
   ) : isValid === true ? (

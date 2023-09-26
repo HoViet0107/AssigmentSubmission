@@ -5,6 +5,7 @@ import {
 } from "react-notifications";
 import ajax from "src/service/fetchService";
 import { useLocalState } from "src/store/UseLocalStorage";
+import CusButton from "src/components/CustomTag/CusButton/CusButton";
 
 const AssignmentView = () => {
   // eslint-disable-next-line no-unused-vars
@@ -71,7 +72,7 @@ const AssignmentView = () => {
             />
           </h3>
 
-          <button onClick={save}>Submit</button>
+          <CusButton onClick={save}>Submit</CusButton>
           <NotificationContainer />
         </>
       ) : (

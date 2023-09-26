@@ -18,6 +18,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Assignment createAssignment(User user) {
         Assignment assignment = new Assignment();
+        assignment.setName("Assignment");
         assignment.setBranch("Dev branch");
         assignment.setStatus("Dev mode");
         assignment.setGithubUrl("Dev mode github URL");
