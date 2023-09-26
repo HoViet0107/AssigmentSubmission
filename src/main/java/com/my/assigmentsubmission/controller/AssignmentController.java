@@ -21,13 +21,8 @@ public class AssignmentController {
     // create assignment
     @PostMapping("")
     public ResponseEntity<?> createAssignments(@AuthenticationPrincipal User user) {
-        try {
-            Assignment newAssignment = assignmentService.createAssignment(user);
-            return ResponseEntity.ok(newAssignment);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
-        }
+        Assignment newAssignment = assignmentService.createAssignment(user);
+        return ResponseEntity.ok(newAssignment);
     }
 
     //    get all assignments

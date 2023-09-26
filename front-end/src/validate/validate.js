@@ -32,7 +32,7 @@ export function validatePassword(password) {
   }
 
   if (password.length > 16) {
-    pMessage = "Mật khẩu phải tối đa 16 ký tự!";
+    pMessage = "Mật khẩu tối đa 16 ký tự!";
     return false;
   }
 

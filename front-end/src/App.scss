@@ -1,6 +1,11 @@
-@use "base";
+@use "src/globalStyle/base";
 * {
   padding: 0;
   margin: 0;
   font-family: Poppins-Regular;
+  // height: 100vh;
+  // background-color: base.$light-black;
+}
+.App {
+  padding: 1rem;
 }

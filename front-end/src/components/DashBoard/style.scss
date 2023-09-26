@@ -1,4 +1,21 @@
-.container {
+@use "src/globalStyle/base.scss";
+
+.dashboard-container {
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dashboard-btn {
+  float: right;
+  margin-bottom: 1rem;
+}
+
+.card-item {
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }

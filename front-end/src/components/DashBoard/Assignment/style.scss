@@ -1,0 +1,41 @@
+@use "src/globalStyle/base.scss";
+
+.assignment-container {
+  border: 1px solid base.$light-gray;
+  padding: 0.5rem;
+  width: 300px;
+  position: relative;
+}
+.card-content > * {
+  margin: 5px;
+}
+.card-title {
+  font-size: 1.6rem;
+}
+.card-subtitle {
+  color: base.$subtitle-red;
+  font-style: italic;
+}
+.card-details > b {
+  color: base.$dark-gray;
+}
+.card-details > span {
+  color: base.$subtitle-gray;
+  transition: all 0.3s linear;
+  cursor: pointer;
+  &:hover {
+    border-bottom: 1px solid base.$dark-gray;
+    background-color: base.$soft-blue;
+  }
+}
+
+.btn-container {
+  width: fit-content;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  font-size: 1rem;
+  &:hover {
+    color: base.$button-primary-hover;
+  }
+}
