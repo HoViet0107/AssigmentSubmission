@@ -1,7 +1,8 @@
 package com.my.assigmentsubmission.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.jsonwebtoken.ExpiredJwtException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import com.my.assigmentsubmission.dto.AuthCredentialsRequest;
 import com.my.assigmentsubmission.model.User;
@@ -14,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -46,7 +45,18 @@ public class AuthController {
                                     user))
                     .body(user);
         } catch (Exception e) {
-            return new ResponseEntity<>("Thông tin đăng nhập không hợp lệ!!!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("An error occurred: ", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("validate")
+    public ResponseEntity<?> validateToken(@RequestParam String token, @AuthenticationPrincipal User user) {
+        try {
+            Boolean isTokenValid = jwtUtil.validateToken(token, user);
+            return ResponseEntity.ok(isTokenValid);
+        } catch (ExpiredJwtException exp) {
+            exp.printStackTrace();
+            return ResponseEntity.ok(false);
         }
     }
 }

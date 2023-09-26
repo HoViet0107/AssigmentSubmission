@@ -4,6 +4,7 @@ import { useLocalState } from "src/store/UseLocalStorage";
 import { Link } from "react-router-dom";
 import ajax from "src/service/fetchService";
 import { NotificationManager } from "react-notifications";
+import "./style.scss";
 
 const DashBoard = () => {
   // eslint-disable-next-line no-unused-vars
@@ -12,6 +13,7 @@ const DashBoard = () => {
     branch: "",
     githubUrl: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   // create assignment
   const createAssignMent = () => {
@@ -29,11 +31,12 @@ const DashBoard = () => {
     ajax("api/assignments", jwt, "GET").then((assignmentsData) => {
       setAssignments(assignmentsData);
     });
+    setIsLoading(true);
   }, [jwt]);
 
   return (
     <div className="container">
-      {assignments && assignments.length > 0 ? (
+      {assignments && assignments.length > 0 && isLoading === true ? (
         assignments.map((assignment) => (
           <div key={assignment.id}>
             <Link to={`/assignments/${assignment.id}`}>
@@ -42,7 +45,7 @@ const DashBoard = () => {
           </div>
         ))
       ) : (
-        <></>
+        <div>Loading...</div>
       )}
       <button onClick={createAssignMent}>click!</button>
     </div>

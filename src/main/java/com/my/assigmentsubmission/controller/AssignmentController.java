@@ -26,7 +26,7 @@ public class AssignmentController {
             return ResponseEntity.ok(newAssignment);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity<>("Tạo assignment thất bại! " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
