@@ -18,6 +18,8 @@ const CusInput = ({
   placeHolder,
   changeValue,
   condition,
+  labelVisible,
+  value,
 }) => {
   const [isValid, setIsValid] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -59,9 +61,10 @@ const CusInput = ({
           required
           placeholder={placeHolder}
           accept="text/plain"
+          value={value}
         />
         {inputValue === "" ? (
-          <span style={{ color: "red" }}>*</span>
+          <span style={{ color: "red", right: 1 }}>*</span>
         ) : (
           <span style={{ color: "#f2f3f2" }}>*</span>
         )}
@@ -70,14 +73,19 @@ const CusInput = ({
       {isValid || inputValue === "" ? (
         <p
           className="conditionTitle"
-          style={{ fontStyle: "italic", whiteSpace: "pre-line" }}
+          style={{
+            fontStyle: "italic",
+            whiteSpace: "pre-line",
+          }}
         >
           {conditionTitle}
         </p>
-      ) : (
+      ) : labelVisible === true ? (
         <p className="conditionTitle" style={{ color: "red" }}>
           {message}
         </p>
+      ) : (
+        <p style={{ height: 0 }}>a</p>
       )}
     </div>
   );

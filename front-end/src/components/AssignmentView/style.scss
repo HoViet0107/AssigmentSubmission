@@ -1,0 +1,79 @@
+@use "src/globalStyle/base.scss";
+
+.assignment-v-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  margin-top: 2rem;
+}
+.assignment-v-items {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: fit-content;
+  border: 1px solid base.$light-gray;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+.assignment-v-items > h1 {
+  font-size: 2rem;
+}
+.assignment-v-status {
+  background: base.$subtitle-red;
+  color: base.$light-black;
+  border-radius: 15px;
+  padding: 2px 5px;
+  width: fit-content;
+  height: fit-content;
+  font-style: italic;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+.assignment-v-head-status {
+  display: flex;
+  align-items: center;
+}
+.assignment-v-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2rem;
+}
+.assignment-v-input > label {
+  font-size: 1rem;
+}
+.assignment-v-input > input {
+  width: 75%;
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid base.$subtitle-gray;
+  font-size: 1.2rem;
+  color: base.$dark-gray;
+  padding: 5px;
+}
+
+@media screen and (max-width: 992px) {
+  .assignment-v-items {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .assignment-v-items {
+    width: 400px;
+  }
+  .assignment-v-head-status {
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+  }
+  .assignment-v-status {
+    margin-left: 0px;
+  }
+  .assignment-v-input > input {
+    width: 240px;
+  }
+}

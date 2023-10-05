@@ -7,6 +7,7 @@ import {
 } from "react-notifications";
 // css
 import "./style.scss";
+// component
 import "react-notifications/lib/notifications.css";
 import CusButton from "src/components/CustomTag/CusButton/CusButton";
 import CusInput from "src/components/CustomTag/CusInput/CusInput";
@@ -75,6 +76,7 @@ const Login = () => {
             changeValue={username}
             // message={"Tên đăng nhập không hợp lệ!"}
             condition={"Tên không được chứa khoảng trắng\nhoặc ký tự đặc biệt!"}
+            labelVisible={true}
           >
             Tên đăng nhập
           </CusInput>
@@ -88,6 +90,7 @@ const Login = () => {
             condition={
               "Mật khẩu phải dài hơn 6 ký tự,\n không được chứa khoảng trắng"
             }
+            labelVisible={true}
           >
             Mật khẩu
           </CusInput>
