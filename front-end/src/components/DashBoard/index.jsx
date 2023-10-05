@@ -21,9 +21,13 @@ const DashBoard = () => {
 
   // fetch assignment from db
   useEffect(() => {
-    ajax("api/assignments", jwt, "GET").then((assignmentsData) => {
-      setAssignments(assignmentsData);
-    });
+    ajax("api/assignments", jwt, "GET")
+      .then((assignmentsData) => {
+        setAssignments(assignmentsData);
+      })
+      .catch(() => {
+        return (window.location.href = "login");
+      });
     setIsLoading(true);
   }, [jwt]);
 

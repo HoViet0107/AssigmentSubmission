@@ -6,6 +6,8 @@ import {
 import ajax from "src/service/fetchService";
 import { useLocalState } from "src/store/UseLocalStorage";
 import CusButton from "src/components/CustomTag/CusButton/CusButton";
+// scss
+import "./style.scss";
 
 const AssignmentView = () => {
   // eslint-disable-next-line no-unused-vars
@@ -32,49 +34,65 @@ const AssignmentView = () => {
   );
 
   const save = () => {
-    ajax(`/api/assignments/${assignmentId}`, jwt, "PUT", assignment)
-      .then(
-        NotificationManager.success(
-          "Cập nhật assignment thành công!",
-          "Success!"
+    if (assignment.branch !== "" && assignment.githubUrl !== "") {
+      ajax(`/api/assignments/${assignmentId}`, jwt, "PUT", assignment)
+        .then(
+          NotificationManager.success(
+            "Cập nhật assignment thành công!",
+            "Success!"
+          )
         )
-      )
-      .then((assignmentData) => {
-        setAssignment(assignmentData);
-      })
-      .catch((message) => {
-        NotificationManager.warning(message, "Warning", 2000);
-      });
+        .then((assignmentData) => {
+          setAssignment(assignmentData);
+        })
+        .catch((message) => {
+          NotificationManager.warning(message, "Warning", 2000);
+        });
+    } else {
+      NotificationManager.warning(
+        "Vui lòng nhập đầy đủ thông tin!",
+        "Warning",
+        2000
+      );
+    }
   };
 
   return (
-    <div>
-      <h1>Assignment {assignmentId}</h1>
+    <div className="assignment-v-container">
       {assignment ? (
-        <>
-          <h2>Status: {assignment.status}</h2>
-          <h3>
-            Branch:
+        <div className="assignment-v-items">
+          <div className="assignment-v-head-status">
+            <h1>{assignment.name}</h1>
+            <h2 className="assignment-v-status">{assignment.status}</h2>
+          </div>
+          <h3 className="assignment-v-input">
+            <label>Branch:</label>
             <input
+              className="v-input-item"
               type="text"
               id="branch"
-              onChange={(e) => updateAssignment("branch", e.target.value)}
+              onChange={(e) => {
+                updateAssignment("branch", e.target.value);
+              }}
               value={assignment.branch}
+              required
             />
           </h3>
-          <h3>
-            Github URL:{" "}
+          <h3 className="assignment-v-input">
+            <label>Github URL:</label>
             <input
+              className="v-input-item"
               type="url"
               id="gitHubUrl"
               onChange={(e) => updateAssignment("githubUrl", e.target.value)}
               value={assignment.githubUrl}
+              required
             />
           </h3>
 
           <CusButton onClick={save}>Submit</CusButton>
           <NotificationContainer />
-        </>
+        </div>
       ) : (
         <></>
       )}

@@ -8,6 +8,7 @@
 }
 .card-content > * {
   margin: 5px;
+  overflow: hidden;
 }
 .card-title {
   font-size: 1.6rem;
@@ -16,13 +17,20 @@
   color: base.$subtitle-red;
   font-style: italic;
 }
+.card-details {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+}
 .card-details > b {
   color: base.$dark-gray;
+  margin-right: 10px;
 }
 .card-details > span {
   color: base.$subtitle-gray;
   transition: all 0.3s linear;
   cursor: pointer;
+  border-bottom: 1px solid base.$light-black;
   &:hover {
     border-bottom: 1px solid base.$dark-gray;
     background-color: base.$soft-blue;
