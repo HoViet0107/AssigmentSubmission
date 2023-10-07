@@ -10,7 +10,9 @@ const Assignment = (assignment) => {
   return (
     <div className="assignment-container">
       <div className="card-content">
-        <h3 className="card-title">{assignment.assignment.name}</h3>
+        <h3 className="card-title">
+          Assignment #{assignment.assignment.number}
+        </h3>
         <h4 className="card-subtitle">{assignment.assignment.status}</h4>
         <p className="card-details">
           <b>GitHubUrl: </b>

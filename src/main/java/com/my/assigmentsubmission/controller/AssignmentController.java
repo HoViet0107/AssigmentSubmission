@@ -1,5 +1,6 @@
 package com.my.assigmentsubmission.controller;
 
+import com.my.assigmentsubmission.dto.AssignmentResponseDto;
 import com.my.assigmentsubmission.model.Assignment;
 import com.my.assigmentsubmission.model.User;
 import com.my.assigmentsubmission.service.AssignmentService;
@@ -32,7 +33,6 @@ public class AssignmentController {
             Set<Assignment> assignmentsByUser = assignmentService.findByUser(user);
             return ResponseEntity.ok(assignmentsByUser);
         } catch (Exception ex) {
-            ex.printStackTrace();
             return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -42,9 +42,9 @@ public class AssignmentController {
     public ResponseEntity<?> getAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal User user) {
         try {
             Optional<Assignment> assignmentOpt = assignmentService.findById(assignmentId);
-            return ResponseEntity.ok(assignmentOpt.orElse(new Assignment()));
+            AssignmentResponseDto response = new AssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
+            return ResponseEntity.ok(response);
         } catch (Exception ex) {
-            ex.printStackTrace();
             return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

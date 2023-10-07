@@ -22,11 +22,15 @@ const AssignmentView = () => {
     setAssignment(newAssignment);
   };
 
+  const [assignmentEnums, setAssignmentEnums] = useState([]);
+
   useEffect(
     (response) => {
       ajax(`/api/assignments/${assignmentId}`, jwt, "GET").then(
-        (assignmentData) => {
+        (assignmentResponse) => {
+          let assignmentData = assignmentResponse;
           setAssignment(assignmentData);
+          setAssignmentEnums(assignmentResponse.assignmentEnum);
         }
       );
     },
@@ -57,14 +61,35 @@ const AssignmentView = () => {
     }
   };
 
+  useEffect(() => {
+    if (assignment !== null) {
+      setAssignmentEnums(assignment.assignmentEnums);
+    }
+  }, [assignment, assignmentEnums]);
+
   return (
     <div className="assignment-v-container">
       {assignment ? (
         <div className="assignment-v-items">
           <div className="assignment-v-head-status">
-            <h1>{assignment.name}</h1>
-            <h2 className="assignment-v-status">{assignment.status}</h2>
+            <h1>Assignment #{assignment.assignment.number}</h1>
+            <h2 className="assignment-v-status">
+              {assignment.assignment.status}
+            </h2>
           </div>
+          <h3 className="assignment-v-input">
+            <p>Assignment Number:</p>
+            <select name="assignmentEnum" id="assignmentEnum">
+              {assignmentEnums?.map((assignEnum) => {
+                console.log(assignEnum.assignmentNum);
+                return (
+                  <option key={assignEnum.assignmentNum}>
+                    {assignEnum.assignmentNum}
+                  </option>
+                );
+              })}
+            </select>
+          </h3>
           <h3 className="assignment-v-input">
             <label>Branch:</label>
             <input
@@ -74,7 +99,7 @@ const AssignmentView = () => {
               onChange={(e) => {
                 updateAssignment("branch", e.target.value);
               }}
-              value={assignment.branch}
+              value={assignment.assignment.branch}
               required
             />
           </h3>
@@ -85,7 +110,7 @@ const AssignmentView = () => {
               type="url"
               id="gitHubUrl"
               onChange={(e) => updateAssignment("githubUrl", e.target.value)}
-              value={assignment.githubUrl}
+              value={assignment.assignment.githubUrl}
               required
             />
           </h3>
