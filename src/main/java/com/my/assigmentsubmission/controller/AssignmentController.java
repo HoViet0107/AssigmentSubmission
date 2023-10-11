@@ -59,7 +59,6 @@ public class AssignmentController {
             Assignment existAssignment = assignmentService.updateAssignment(assignment);
             return ResponseEntity.ok(existAssignment);
         } catch (Exception ex) {
-            ex.printStackTrace();
             return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

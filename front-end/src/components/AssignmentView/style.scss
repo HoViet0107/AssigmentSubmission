@@ -69,6 +69,38 @@ option {
   font-size: 1rem;
 }
 
+// submit btn
+.assignment-btn-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.f-assignment-submit {
+  font-size: 1.4rem;
+  transition: all 0.3s linear;
+  width: 200px;
+  align-items: center;
+  padding-right: auto;
+  padding-left: auto;
+}
+.f-submit {
+  width: 150px !important;
+  padding: 5px;
+  border: none;
+  background-color: base.$button-primary-color;
+  cursor: pointer;
+  border-radius: 4px;
+  color: base.$button-text-color;
+  transition: all 0.3s linear;
+}
+.f-submit-confirm {
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.3s linear;
+}
+
 // responsive
 @media screen and (max-width: 992px) {
   .assignment-v-items {

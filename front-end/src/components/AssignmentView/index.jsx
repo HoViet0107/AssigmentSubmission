@@ -5,7 +5,8 @@ import {
 } from "react-notifications";
 import ajax from "src/service/fetchService";
 import { useLocalState } from "src/store/UseLocalStorage";
-import CusButton from "src/components/CustomTag/CusButton/CusButton";
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { GiConfirmed, GiCancel } from "react-icons/gi";
 // scss
 import "./style.scss";
 
@@ -14,23 +15,33 @@ const AssignmentView = () => {
   const [jwt, setJwt] = useLocalState("", "jwt");
   const assignmentId = window.location.href.split("/assignments/")[1];
   // eslint-disable-next-line no-unused-vars
-  const [assignment, setAssignment] = useState(null);
+  const [fAssignment, setFAssignment] = useState({
+    branch: "",
+    githubUrl: "",
+    number: 0,
+    status: undefined,
+  });
 
   const updateAssignment = (props, value) => {
-    const newAssignment = { ...assignment };
+    const newAssignment = { ...fAssignment };
     newAssignment[props] = value;
-    setAssignment(newAssignment);
+    setFAssignment(newAssignment);
   };
 
-  const [assignmentEnums, setAssignmentEnums] = useState([]);
+  const [fAssignmentEnums, setFAssignmentEnums] = useState([]);
+  const [fAssignmentStatuses, setFAssignmentStatuses] = useState([]);
 
+  const [confirmClick, setConfirmClick] = useState(false);
+
+  // get data
   useEffect(
     (response) => {
       ajax(`/api/assignments/${assignmentId}`, jwt, "GET").then(
         (assignmentResponse) => {
           let assignmentData = assignmentResponse;
-          setAssignment(assignmentData);
-          setAssignmentEnums(assignmentResponse.assignmentEnum);
+          setFAssignment(assignmentData.assignment);
+          setFAssignmentEnums(assignmentData.assignmentEnums);
+          setFAssignmentStatuses(assignmentData.assignmentStatusEnums);
         }
       );
     },
@@ -38,50 +49,61 @@ const AssignmentView = () => {
   );
 
   const save = () => {
-    if (assignment.branch !== "" && assignment.githubUrl !== "") {
-      ajax(`/api/assignments/${assignmentId}`, jwt, "PUT", assignment)
-        .then(
-          NotificationManager.success(
-            "Cập nhật assignment thành công!",
-            "Success!"
-          )
-        )
+    // update status
+    if (fAssignment.status === fAssignmentStatuses[0].status) {
+      updateAssignment("status", fAssignmentStatuses[1].status);
+    }
+    console.log(fAssignment.status);
+    if (fAssignment.status !== fAssignmentStatuses[0].status) {
+      persist();
+    }
+  };
+
+  const persist = () => {
+    if (fAssignment.branch !== "" && fAssignment.githubUrl !== "") {
+      ajax(`/api/assignments/${fAssignment.number}`, jwt, "PUT", fAssignment)
         .then((assignmentData) => {
-          setAssignment(assignmentData);
+          setFAssignment(assignmentData);
+          NotificationManager.success("!", "Success!");
         })
         .catch((message) => {
           NotificationManager.warning(message, "Warning", 2000);
         });
     } else {
-      NotificationManager.warning(
-        "Vui lòng nhập đầy đủ thông tin!",
-        "Warning",
-        2000
-      );
+      NotificationManager.warning("!", "Warning", 2000);
     }
   };
 
-  useEffect(() => {
-    if (assignment !== null) {
-      setAssignmentEnums(assignment.assignmentEnums);
-    }
-  }, [assignment, assignmentEnums]);
-
   return (
     <div className="assignment-v-container">
-      {assignment ? (
+      {fAssignment ? (
         <div className="assignment-v-items">
           <div className="assignment-v-head-status">
-            <h1>Assignment #{assignment.assignment.number}</h1>
-            <h2 className="assignment-v-status">
-              {assignment.assignment.status}
-            </h2>
+            <h1>
+              Assignment #
+              {fAssignment.number === 0 ||
+              fAssignment.number === "Chọn Assignment" ? (
+                <></>
+              ) : (
+                fAssignment.number
+              )}
+            </h1>
+            <h2 className="assignment-v-status">{fAssignment.status}</h2>
           </div>
           <h3 className="assignment-v-input">
             <p>Assignment Number:</p>
-            <select name="assignmentEnum" id="assignmentEnum">
-              {assignmentEnums?.map((assignEnum) => {
-                console.log(assignEnum.assignmentNum);
+            <select
+              name="assignmentEnum"
+              id="assignmentEnum"
+              onChange={(e) => {
+                // onChangeHandle(e, setSelectedAssignment);
+                updateAssignment("number", e.target.value);
+              }}
+            >
+              <option onClick={() => updateAssignment("number", 0)}>
+                Chọn Assignment
+              </option>
+              {fAssignmentEnums?.map((assignEnum) => {
                 return (
                   <option key={assignEnum.assignmentNum}>
                     {assignEnum.assignmentNum}
@@ -99,7 +121,7 @@ const AssignmentView = () => {
               onChange={(e) => {
                 updateAssignment("branch", e.target.value);
               }}
-              value={assignment.assignment.branch}
+              value={fAssignment.branch}
               required
             />
           </h3>
@@ -109,13 +131,46 @@ const AssignmentView = () => {
               className="v-input-item"
               type="url"
               id="gitHubUrl"
-              onChange={(e) => updateAssignment("githubUrl", e.target.value)}
-              value={assignment.assignment.githubUrl}
+              onChange={(e) => {
+                updateAssignment("githubUrl", e.target.value);
+              }}
+              value={fAssignment.githubUrl}
               required
             />
           </h3>
 
-          <CusButton onClick={save}>Submit</CusButton>
+          <div className="assignment-btn-container">
+            <div className="f-assignment-submit">
+              {confirmClick ? (
+                <span className="f-submit-confirm">
+                  <GiCancel
+                    onClick={() => {
+                      setConfirmClick(false);
+                      console.log("cancel");
+                    }}
+                  />
+                  <GiConfirmed
+                    onClick={() => {
+                      setConfirmClick(false);
+                      console.log("confirm");
+                      save();
+                    }}
+                  />
+                </span>
+              ) : (
+                <span
+                  className="f-submit"
+                  onClick={() => {
+                    save();
+                    console.log("submit");
+                    setConfirmClick(true);
+                  }}
+                >
+                  Submit
+                </span>
+              )}
+            </div>
+          </div>
           <NotificationContainer />
         </div>
       ) : (

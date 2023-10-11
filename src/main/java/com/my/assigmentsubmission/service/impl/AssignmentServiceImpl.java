@@ -1,6 +1,7 @@
 package com.my.assigmentsubmission.service.impl;
 
 import com.my.assigmentsubmission.Repository.AssignmentRepository;
+import com.my.assigmentsubmission.enums.AssignmentStatusEnum;
 import com.my.assigmentsubmission.model.Assignment;
 import com.my.assigmentsubmission.model.User;
 import com.my.assigmentsubmission.service.AssignmentService;
@@ -18,11 +19,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Assignment createAssignment(User user) {
         Assignment assignment = new Assignment();
-//        assignment.setNumber();
-        assignment.setBranch("Dev branch");
-        assignment.setStatus("Dev mode");
-        assignment.setGithubUrl("Dev mode github URL");
-        assignment.setCodeReviewVideoUrl("Dev mode video URl");
+        assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.getStatus());
         assignment.setUser(user);
         return assignmentRepository.save(assignment);
     }

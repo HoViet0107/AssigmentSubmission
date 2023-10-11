@@ -35,9 +35,11 @@ const DashBoard = () => {
   const createAssignMent = () => {
     ajax("/api/assignments", jwt, "POST")
       .then((assignment) => {
+        // console.log(assignment);
         navigate(`/assignments/${assignment.id}`);
       })
       .catch((message) => {
+        console.log(`create assignment error: ${message}`);
         NotificationManager.error(message, "Warning", 2000);
       });
   };
@@ -54,7 +56,7 @@ const DashBoard = () => {
       </div>
       <div className="card-container">
         <div className="card-item">
-          {assignments && assignments.length > 0 && isLoading === true ? (
+          {assignments && assignments.length >= 0 && isLoading === true ? (
             assignments.map((assignment) => (
               <Assignment key={assignment.id} assignment={assignment} />
             ))
