@@ -9,11 +9,18 @@
 -- Update rows in table '[TableName]' in schema '[dbo]'
 -- UPDATE [dbo].[assignment]
 -- SET
---     [number] = 12
--- WHERE id =12
+--     [number] = 4
+-- WHERE id =4
 -- GO
 
-select * from assignment
+    -- Update rows in table '[assignment]' in schema '[dbo]'
+    UPDATE [dbo].[assignment]
+    SET
+        [status] = 'Pending Submission'
+        -- Add more columns and values here
+    WHERE status = 'Submitted'
+    Go
+    select * from assignment
 
 -- ALTER TABLE assignment
 -- DROP COLUMN name;
