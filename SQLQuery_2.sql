@@ -3,7 +3,8 @@
 
 -- delete from authority where id = 5
 
--- select * from users
+select *
+from users
 -- select * from authority
 
 -- Update rows in table '[TableName]' in schema '[dbo]'
@@ -13,14 +14,16 @@
 -- WHERE id =4
 -- GO
 
-    -- Update rows in table '[assignment]' in schema '[dbo]'
-    UPDATE [dbo].[assignment]
-    SET
-        [status] = 'Pending Submission'
-        -- Add more columns and values here
-    WHERE status = 'Submitted'
-    Go
-    select * from assignment
+-- Update rows in table '[assignment]' in schema '[dbo]'
+
+-- UPDATE [dbo].[assignment]
+-- SET
+--     [status] = 'Pending Submission'
+--     -- Add more columns and values here
+-- WHERE status = 'Submitted'
+-- Go
+select *
+from assignment
 
 -- ALTER TABLE assignment
 -- DROP COLUMN name;
