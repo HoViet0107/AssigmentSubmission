@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   NotificationContainer,
   NotificationManager,
@@ -6,9 +6,8 @@ import {
 import ajax from "src/service/fetchService";
 import { useLocalState } from "src/store/UseLocalStorage";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { GiConfirmed, GiCancel } from "react-icons/gi";
-// scss
 import "./style.scss";
+import CusButton from "../CustomTag/CusButton/CusButton";
 
 const AssignmentView = () => {
   // eslint-disable-next-line no-unused-vars
@@ -19,7 +18,7 @@ const AssignmentView = () => {
     branch: "",
     githubUrl: "",
     number: 0,
-    status: undefined,
+    status: null,
   });
 
   const updateAssignment = (props, value) => {
@@ -31,7 +30,7 @@ const AssignmentView = () => {
   const [fAssignmentEnums, setFAssignmentEnums] = useState([]);
   const [fAssignmentStatuses, setFAssignmentStatuses] = useState([]);
 
-  const [confirmClick, setConfirmClick] = useState(false);
+  const prevAssignmentValue = useRef(fAssignment);
 
   // get data
   useEffect(
@@ -48,29 +47,46 @@ const AssignmentView = () => {
     [assignmentId, jwt]
   );
 
-  const save = () => {
-    // update status
-    if (fAssignment.status === fAssignmentStatuses[0].status) {
-      updateAssignment("status", fAssignmentStatuses[1].status);
-    }
-    console.log(fAssignment.status);
-    if (fAssignment.status !== fAssignmentStatuses[0].status) {
+  useEffect(() => {
+    if (
+      prevAssignmentValue.current.status !== null &&
+      prevAssignmentValue.current.status !== fAssignment.status
+    ) {
       persist();
     }
-  };
+    prevAssignmentValue.current = fAssignment;
+  }, [fAssignment]);
 
   const persist = () => {
-    if (fAssignment.branch !== "" && fAssignment.githubUrl !== "") {
-      ajax(`/api/assignments/${fAssignment.number}`, jwt, "PUT", fAssignment)
-        .then((assignmentData) => {
-          setFAssignment(assignmentData);
-          NotificationManager.success("!", "Success!");
-        })
-        .catch((message) => {
-          NotificationManager.warning(message, "Warning", 2000);
-        });
+    ajax(`/api/assignments/${fAssignment.number}`, jwt, "PUT", fAssignment)
+      .then((assignmentData) => {
+        setFAssignment(assignmentData);
+        NotificationManager.success("!", "Success!");
+      })
+      .catch((message) => {
+        NotificationManager.warning(message, "Warning", 2000);
+      });
+  };
+  const save = () => {
+    if (
+      fAssignment.branch !== "" &&
+      fAssignment.githubUrl !== "" &&
+      fAssignment.branch !== null &&
+      fAssignment.githubUrl !== null &&
+      fAssignment.number !== null
+    ) {
+      // update status
+      if (fAssignment.status === fAssignmentStatuses[0].status) {
+        updateAssignment("status", fAssignmentStatuses[1].status);
+      } else {
+        persist();
+      }
     } else {
-      NotificationManager.warning("!", "Warning", 2000);
+      NotificationManager.warning(
+        "Hãy nhập đầy đủ các trường!",
+        "Warning",
+        2000
+      );
     }
   };
 
@@ -99,10 +115,8 @@ const AssignmentView = () => {
                 // onChangeHandle(e, setSelectedAssignment);
                 updateAssignment("number", e.target.value);
               }}
+              value={fAssignment.number}
             >
-              <option onClick={() => updateAssignment("number", 0)}>
-                Chọn Assignment
-              </option>
               {fAssignmentEnums?.map((assignEnum) => {
                 return (
                   <option key={assignEnum.assignmentNum}>
@@ -122,7 +136,7 @@ const AssignmentView = () => {
                 updateAssignment("branch", e.target.value);
               }}
               value={fAssignment.branch}
-              required
+              required={true}
             />
           </h3>
           <h3 className="assignment-v-input">
@@ -135,41 +149,12 @@ const AssignmentView = () => {
                 updateAssignment("githubUrl", e.target.value);
               }}
               value={fAssignment.githubUrl}
-              required
+              required={true}
             />
           </h3>
 
           <div className="assignment-btn-container">
-            <div className="f-assignment-submit">
-              {confirmClick ? (
-                <span className="f-submit-confirm">
-                  <GiCancel
-                    onClick={() => {
-                      setConfirmClick(false);
-                      console.log("cancel");
-                    }}
-                  />
-                  <GiConfirmed
-                    onClick={() => {
-                      setConfirmClick(false);
-                      console.log("confirm");
-                      save();
-                    }}
-                  />
-                </span>
-              ) : (
-                <span
-                  className="f-submit"
-                  onClick={() => {
-                    save();
-                    console.log("submit");
-                    setConfirmClick(true);
-                  }}
-                >
-                  Submit
-                </span>
-              )}
-            </div>
+            <CusButton onClick={save}>Submit</CusButton>
           </div>
           <NotificationContainer />
         </div>
