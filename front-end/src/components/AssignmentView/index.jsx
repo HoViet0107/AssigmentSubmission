@@ -56,6 +56,7 @@ const AssignmentView = () => {
       persist();
     }
     prevAssignmentValue.current = fAssignment;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fAssignment]);
 
   const persist = () => {
