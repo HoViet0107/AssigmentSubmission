@@ -20,8 +20,33 @@ public class AssignmentServiceImpl implements AssignmentService {
     public Assignment createAssignment(User user) {
         Assignment assignment = new Assignment();
         assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.getStatus());
+        assignment.setNumber(findNextAssignmentToSubmit(user));
         assignment.setUser(user);
         return assignmentRepository.save(assignment);
+    }
+
+    private Integer findNextAssignmentToSubmit(User user) {
+        Set<Assignment> assignmentByUser = assignmentRepository.findByUser(user);
+        if (assignmentByUser == null) {
+            return 1;
+        }
+        Optional<Integer> nextAssignmentNumberOpt = assignmentByUser.stream().sorted((assignment1, assignment2) -> {
+            if (assignment1.getNumber() == null) {
+                return -1;
+            }
+            if (assignment2.getNumber() == null) {
+                return -1;
+            }
+            return assignment2.getNumber().compareTo(assignment1.getNumber());
+        }).map(assignment -> {
+            if (assignment.getNumber() == null) {
+                return 1;
+            } else {
+                return assignment.getNumber() + 1;
+            }
+        }).findFirst();
+
+        return nextAssignmentNumberOpt.orElse(1);
     }
 
     @Override
