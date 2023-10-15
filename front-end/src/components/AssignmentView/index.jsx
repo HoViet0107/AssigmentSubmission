@@ -8,6 +8,7 @@ import { useLocalState } from "src/store/UseLocalStorage";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import "./style.scss";
 import CusButton from "../CustomTag/CusButton/CusButton";
+import BackBtn from "../CustomTag/CusButton/BackBtn";
 
 const AssignmentView = () => {
   // eslint-disable-next-line no-unused-vars
@@ -61,7 +62,7 @@ const AssignmentView = () => {
     ajax(`/api/assignments/${fAssignment.number}`, jwt, "PUT", fAssignment)
       .then((assignmentData) => {
         setFAssignment(assignmentData);
-        NotificationManager.success("!", "Success!");
+        NotificationManager.success("Thành công!", "Success!");
       })
       .catch((message) => {
         NotificationManager.warning(message, "Warning", 2000);
@@ -155,6 +156,9 @@ const AssignmentView = () => {
 
           <div className="assignment-btn-container">
             <CusButton onClick={save}>Submit</CusButton>
+            <div>
+              <BackBtn url={"/dashboard"} />
+            </div>
           </div>
           <NotificationContainer />
         </div>

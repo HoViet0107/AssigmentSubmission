@@ -22,8 +22,10 @@ from users
 --     -- Add more columns and values here
 -- WHERE status = 'Submitted'
 -- Go
+
 select *
 from assignment
+
 
 -- ALTER TABLE assignment
 -- DROP COLUMN name;
