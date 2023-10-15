@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
-import { IoArrowBackCircleSharp } from "react-icons/io5";
 
 const BackBtn = (url) => {
   const navigate = useNavigate();

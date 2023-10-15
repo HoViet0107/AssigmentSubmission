@@ -5,7 +5,11 @@
 
 select *
 from users
+select * from authority
+-- Delete rows from table '[authority]' in schema '[dbo]'
+-- insert into authority values('ROLE_CODE_REVIEWER',2)
 -- select * from authority
+-- insert into users values(2,'2023-01-02', '$2a$10$4htGX3s4.9UGjbuD3uY8qOvRcTzyyt68oOnl4AatNJJV2lSNuIpo6', 'code');
 
 -- Update rows in table '[TableName]' in schema '[dbo]'
 -- UPDATE [dbo].[assignment]
