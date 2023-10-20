@@ -2,7 +2,6 @@ package com.my.assigmentsubmission.service;
 
 import com.my.assigmentsubmission.model.Assignment;
 import com.my.assigmentsubmission.model.User;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
@@ -13,7 +12,8 @@ public interface AssignmentService {
 
     Set<Assignment> findByUser(User user);
 
-    Optional<Assignment> findById(Long assignmentId);
+    Optional<Assignment> findById(Integer assignmentId);
 
-    Assignment updateAssignment(com.my.assigmentsubmission.model.Assignment assignment);
+    Assignment updateAssignment(Assignment assignment);
+    Assignment updateAssignmentCodeReviewer(Assignment assignment);
 }

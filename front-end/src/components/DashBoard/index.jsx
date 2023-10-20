@@ -35,7 +35,7 @@ const DashBoard = () => {
   const createAssignMent = () => {
     ajax("/api/assignments", jwt, "POST")
       .then((assignment) => {
-        // console.log(assignment);
+        console.log(assignment);
         navigate(`/assignments/${assignment.id}`);
       })
       .catch((message) => {

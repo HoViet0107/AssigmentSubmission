@@ -2,6 +2,7 @@ package com.my.assigmentsubmission.service.impl;
 
 import com.my.assigmentsubmission.Repository.AssignmentRepository;
 import com.my.assigmentsubmission.enums.AssignmentStatusEnum;
+import com.my.assigmentsubmission.enums.AuthorityEnum;
 import com.my.assigmentsubmission.model.Assignment;
 import com.my.assigmentsubmission.model.User;
 import com.my.assigmentsubmission.service.AssignmentService;
@@ -51,16 +52,40 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Set<Assignment> findByUser(User user) {
-        return assignmentRepository.findByUser(user);
+        //load assignment if you're code reviewer
+        boolean hasCodeReviewerRole = user.getAuthorities()
+                .stream()
+                .filter(auth -> AuthorityEnum.ROLE_CODE_REVIEWER.name().equals(auth.getAuthority()))
+                .count() > 0;
+        if (hasCodeReviewerRole) {
+            return assignmentRepository.findByCodeReviewer(user);
+        } else {
+            //load assignment ì you're student
+            return assignmentRepository.findByUser(user);
+        }
     }
 
     @Override
-    public Optional<Assignment> findById(Long assignmentId) {
+    public Optional<Assignment> findById(Integer assignmentId) {
         return assignmentRepository.findById(assignmentId);
     }
 
     @Override
     public Assignment updateAssignment(Assignment assignment) {
         return assignmentRepository.save(assignment);
+    }
+
+    @Override
+    public Assignment updateAssignmentCodeReviewer(Assignment assignment) {
+        Assignment existedAssignment = findExistedAssignment(assignment.getId());
+        existedAssignment.setStatus(assignment.getStatus());
+        existedAssignment.setCodeReviewer(assignment.getCodeReviewer());
+        System.out.println(existedAssignment);
+        return assignmentRepository.save(existedAssignment);
+    }
+
+    // get the existed assignment
+    public Assignment findExistedAssignment(Integer assignmentId){
+        return assignmentRepository.findById(assignmentId).orElse(null);
     }
 }
