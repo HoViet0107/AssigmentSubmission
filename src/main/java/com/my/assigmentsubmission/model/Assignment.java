@@ -14,15 +14,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Assignment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private Integer number;
     private String status;
     private String githubUrl;
     private String branch;
     private String codeReviewVideoUrl;
 
+    @ManyToOne()
+    private User codeReviewer;
+
     @ManyToOne(optional = false)
     private User user;
-   // private User assignTo;
 }

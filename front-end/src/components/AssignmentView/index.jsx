@@ -34,19 +34,16 @@ const AssignmentView = () => {
   const prevAssignmentValue = useRef(fAssignment);
 
   // get data
-  useEffect(
-    (response) => {
-      ajax(`/api/assignments/${assignmentId}`, jwt, "GET").then(
-        (assignmentResponse) => {
-          let assignmentData = assignmentResponse;
-          setFAssignment(assignmentData.assignment);
-          setFAssignmentEnums(assignmentData.assignmentEnums);
-          setFAssignmentStatuses(assignmentData.assignmentStatusEnums);
-        }
-      );
-    },
-    [assignmentId, jwt]
-  );
+  useEffect(() => {
+    ajax(`/api/assignments/${assignmentId}`, jwt, "GET").then(
+      (assignmentResponse) => {
+        let assignmentData = assignmentResponse;
+        setFAssignment(assignmentData.assignment);
+        setFAssignmentEnums(assignmentData.assignmentEnums);
+        setFAssignmentStatuses(assignmentData.assignmentStatusEnums);
+      }
+    );
+  }, [assignmentId, jwt]);
 
   useEffect(() => {
     if (

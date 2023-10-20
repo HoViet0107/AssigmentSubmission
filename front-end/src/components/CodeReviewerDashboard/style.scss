@@ -1,0 +1,18 @@
+@use "src/globalStyle/base.scss";
+
+.cd-dashboard-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cd-dashboard-container > h1 {
+  margin-bottom: 2rem;
+}
+.reviewed > h3 {
+  width: fit-content;
+  margin-top: -1.75rem;
+  background-color: base.$light-black;
+  margin-bottom: 1rem;
+}

@@ -26,25 +26,22 @@ import java.util.List;
 @AllArgsConstructor
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(columnDefinition = "unique")
+    private String username;
+    @JsonIgnore
+    private String password;
 
     @NonNull
     private LocalDate cohortStartDate;
 
-    @NonNull
-    @Column(columnDefinition = "unique")
-    private String username;
-
-    @NonNull
-    @JsonIgnore
-    private String password;
-
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Authority> authorities = new ArrayList<>();
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -87,7 +84,7 @@ public class User implements UserDetails {
         return authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+        public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 }

@@ -4,7 +4,7 @@ import { useLocalState } from "src/store/UseLocalStorage";
 
 import ajax from "src/service/fetchService";
 import "./style.scss";
-import Assignment from "src/components/DashBoard/Assignment";
+import Assignment from "./Assignment";
 
 const CodeReviewerDashboard = () => {
   // eslint-disable-next-line no-unused-vars
@@ -25,22 +25,32 @@ const CodeReviewerDashboard = () => {
         return (window.location.href = "login");
       });
     setIsLoading(true);
+    // console.log(jwt);
   }, [jwt]);
 
   return (
-    <div className="dashboard-container">
+    <div className="cd-dashboard-container">
       <h1>Code Reviewer dashboard</h1>
-      <div className="card-container">
-        <div className="card-item">
-          {assignments && assignments.length >= 0 && isLoading === true ? (
-            assignments.map((assignment) => (
-              <Assignment key={assignment.id} assignment={assignment} />
-            ))
-          ) : (
-            <div>Loading...</div>
-          )}
+      {/* <div className="assignment-wrapper in-review"></div> */}
+      <div className="assignment-wrapper reviewed">
+        <h3>Chờ xét duyệt</h3>
+        <div className="card-container">
+          <div className="card-item">
+            {assignments && assignments.length >= 0 && isLoading === true ? (
+              assignments.map((assignment) => (
+                <Assignment
+                  key={assignment.id}
+                  assignment={assignment}
+                  jwt={{ jwt }}
+                />
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
+          </div>
         </div>
       </div>
+      {/* <div className="assignment-wrapper needs-update"></div> */}
     </div>
   );
 };
