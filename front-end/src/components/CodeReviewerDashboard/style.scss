@@ -10,9 +10,20 @@
 .cd-dashboard-container > h1 {
   margin-bottom: 2rem;
 }
-.reviewed > h3 {
+.reviewed > h3,
+.in-review > h3,
+.needs-update > h3 {
+  font-size: 2rem;
   width: fit-content;
-  margin-top: -1.75rem;
+  margin-top: -2.3rem;
   background-color: base.$light-black;
   margin-bottom: 1rem;
+  margin-left: 3rem;
+}
+.in-review {
+  margin-top: 1rem;
+}
+.assignment-wrapper {
+  width: 90%;
+  margin-top: 3rem;
 }

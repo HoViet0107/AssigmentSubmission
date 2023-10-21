@@ -80,7 +80,6 @@ public class AssignmentServiceImpl implements AssignmentService {
         Assignment existedAssignment = findExistedAssignment(assignment.getId());
         existedAssignment.setStatus(assignment.getStatus());
         existedAssignment.setCodeReviewer(assignment.getCodeReviewer());
-        System.out.println(existedAssignment);
         return assignmentRepository.save(existedAssignment);
     }
 
