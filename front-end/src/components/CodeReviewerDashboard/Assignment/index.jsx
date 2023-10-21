@@ -14,6 +14,7 @@ const Assignment = (assignment) => {
   // eslint-disable-next-line no-unused-vars
   const [jwt, setJwt] = useLocalState("", "jwt");
   const [isClaimClicked, setIsClaimClicked] = useState(false);
+
   useEffect(() => {
     if (isClaimClicked) {
       if (jwt) {
@@ -24,23 +25,30 @@ const Assignment = (assignment) => {
         const updateAssignment = { ...assignment };
         updateAssignment.status = "In Review";
         updateAssignment.codeReviewer = user;
-        ajax(
-          `/api/assignments/${assignment.assignment.id}`,
-          jwt,
-          "PUT",
-          updateAssignment
-        ).then((updatedAssignment) => {
-          // TODO: update the view for the assignment that changed
-          NotificationManager.success("!", "Success!");
-        });
+        assignment.assignment.status = "In Review";
+        // ajax(
+        //   `/api/assignment/${assignment.assignment.id}`,
+        //   jwt,
+        //   "PUT",
+        //   updateAssignment
+        // ).then((updatedAssignment) => {
+        //   // TODO: update the view for the assignment that changed
+        //   NotificationManager.success("!", "Success!");
+        // });
       }
       setIsClaimClicked(!isClaimClicked);
+      console.log("Assignment comp assignment change: ", assignment);
+      // return assignment;
     }
   }, [assignment, isClaimClicked, jwt]);
 
   const claimAssignment = () => {
     setIsClaimClicked(!isClaimClicked);
+    assignment.onClaim(assignment);
   };
+  useEffect(() => {
+    console.log("Assignment comp assignment status change: ", assignment);
+  }, [assignment]);
   return (
     <div className="assignment-container">
       <div className="card-content">
@@ -58,13 +66,7 @@ const Assignment = (assignment) => {
         </p>
       </div>
       <div className="btn-container">
-        <button
-          onClick={() => {
-            claimAssignment(assignment);
-          }}
-        >
-          Claim
-        </button>
+        <button onClick={claimAssignment}>Claim</button>
       </div>
       <NotificationContainer />
     </div>
